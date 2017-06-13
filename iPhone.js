@@ -1,4 +1,3 @@
-background(0, 255, 208);
 var App=function(config){//constructer
     this.x=config.x||200;
     this.y=config.y||200;
@@ -17,15 +16,18 @@ App.prototype.draw=function(){//the draw meoathod
     text(this.label,this.x-5,this.y+this.size+18);
 };
 App.prototype.isInside=function(){
-    return mouseX>this.x && mouseX>this.x+this.size &&
+    return mouseX>this.x && mouseX<this.x+this.size &&
     mouseY>this.y && mouseY<this.y+this.size;
 };
+App.prototype.handleMouseClick=function(){
+    this.onClick();       
+};
 var drawPhone= function(x,y,App){//the draw phone
+    background(0, 255, 208);
     stroke(255, 213, 0);
-    strokeWeight(9);
-    rect(x,y,219,342,10);
+    strokeWeight(14);
     fill(4, 255, 0);
-    rect(x+4,y+4,210,340);
+    rect(x+4,y+4,210,340,10);
     fill(255, 0, 0);
     textSize(25);
     text("JS Phone",x+55,y+36);
@@ -57,14 +59,24 @@ popMatrix();
 //main program
 drawPhone(100,20);
 var starTrek= new App({
-    x:126,
+    x:122,
     y:74,
     color:color(87, 92, 91),
-    textColor:color(77, 75, 75),
+    textColor:color(74, 74, 77),
     label:"Star Trek",
     onClick:function(){
-        background(255, 0, 0);
+        drawPhone(100,20);
+        fill(64, 59, 59);
+        noStroke();
+        rect(100+8,20+8,205,335);
     }    
 });
 starTrek.draw();
-drawAppStarTrekBadge(starTrek.x+18,starTrek.y+22);
+drawAppStarTrekBadge(starTrek.x+18,starTrek.y+20);
+
+mouseClicked=function(){
+    if(starTrek.isInside()){
+        starTrek.handleMouseClick();
+    }    
+};
+
