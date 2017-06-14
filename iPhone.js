@@ -1,4 +1,5 @@
-var App=function(config){//constructer
+
+n=function(config){//constructer
     this.x=config.x||200;
     this.y=config.y||200;
     this.size=config.size||40;
@@ -7,6 +8,13 @@ var App=function(config){//constructer
     this.label=config.label||"click";
     this.onClick=config.onClick||function(){};
 };
+Button.prototype.handleMouseClick=function(){
+    this.onClick();       
+};
+var App=function(config){//constructer
+    Button.call(this,config);
+};
+App.prototype = Object.create(Button.prototype);
 App.prototype.draw=function(){//the draw meoathod
     noStroke();
     fill(this.color);
@@ -19,8 +27,22 @@ App.prototype.isInside=function(){
     return mouseX>this.x && mouseX<this.x+this.size &&
     mouseY>this.y && mouseY<this.y+this.size;
 };
-App.prototype.handleMouseClick=function(){
-    this.onClick();       
+var HomeButton=function(config){
+    Button.call(this,config);
+    this.r=config.r||0;
+};
+HomeButton.prototype = Object.create(Button.prototype);
+HomeButton.prototype.draw= function() {
+    fill(this.textColor);
+    ellipse(this.x,this.y,this.r+10,this.r+10);
+    fill(this.color);
+    ellipse(this.x,this.y,this.r,this.r);
+};
+HomeButton.prototype.isInside=function(){
+    return sq(this.x-mouseX)+sq(this.y-mouseY)<=sq(this.r);
+};
+HomeButton.prototype.handleMouseClick=function(){
+    this.onClick();    
 };
 var drawPhone= function(x,y,App){//the draw phone
     background(0, 255, 208);
@@ -31,9 +53,12 @@ var drawPhone= function(x,y,App){//the draw phone
     fill(255, 0, 0);
     textSize(25);
     text("JS Phone",x+55,y+36);
+    fill(255, 213, 0);
+    rect(x+17,y+321,188,10);
+    
 };
 var drawAppStarTrekBadge= function(x,y) {
-    var ellipseWidth=20;
+    var ellipseWidth=25;
     var ellipseHeight=0.65*ellipseWidth;
 
     var cvp1x=11*ellipseWidth/200;
@@ -71,12 +96,24 @@ var starTrek= new App({
         rect(100+8,20+8,205,335);
     }    
 });
+var home= new HomeButton({
+    x:216,    
+    y:355,
+    r:20,
+    color:color(255, 217, 0),
+    textColor:color(104, 107, 104),
+    onClick:function(){
+        drawPhone(100,20);
+    } 
+});
 starTrek.draw();
-drawAppStarTrekBadge(starTrek.x+18,starTrek.y+20);
-
+drawAppStarTrekBadge(starTrek.x+20,starTrek.y+20);
+home.draw();
 mouseClicked=function(){
     if(starTrek.isInside()){
         starTrek.handleMouseClick();
-    }    
+    }else if(home.isInside()){
+        home.handleMouseClick();    
+    }
 };
 
