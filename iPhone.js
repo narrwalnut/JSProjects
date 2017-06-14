@@ -1,5 +1,5 @@
 
-n=function(config){//constructer
+Button=function(config){//constructer
     this.x=config.x||200;
     this.y=config.y||200;
     this.size=config.size||40;
