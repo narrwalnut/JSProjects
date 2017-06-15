@@ -1,5 +1,9 @@
+<<<<<<< HEAD
+var Button=function(config){//constructer
+=======
 
 Button=function(config){//constructer
+>>>>>>> 17336972e9b1a8032878f26a2dc2e814a61b4db9
     this.x=config.x||200;
     this.y=config.y||200;
     this.size=config.size||40;
@@ -57,7 +61,27 @@ var drawPhone= function(x,y,App){//the draw phone
     rect(x+17,y+321,188,10);
     
 };
-var drawAppStarTrekBadge= function(x,y) {
+var drawEnterprise=function(x,y){
+    noStroke();
+    var ellipseWidth = 78;
+    var ellipseHeight =ellipseWidth;
+    
+    fill(143, 136, 136);
+    ellipse(x,y+27,ellipseWidth,ellipseHeight);//sauser section
+
+    ellipse(x+4/270*ellipseWidth,y+ 45/34*ellipseHeight,2/2*ellipseWidth,ellipseHeight+31       );//#2 hull
+
+    fill(255, 0, 0);
+    //left warp
+    ellipse(x-1/1.4*ellipseWidth,y+2/1.8*ellipseHeight,1/2*ellipseWidth,1/2*ellipseHeight);
+    //right warp
+    ellipse(x+26/35*ellipseWidth,y+2/1.8*ellipseHeight,1/2*ellipseWidth,1/2*ellipseHeight);
+
+    fill(5, 60, 255);
+    rect(x-2/2.1*ellipseWidth,y+29/26*ellipseHeight,1/2*ellipseWidth,ellipseHeight);
+    rect(x+1/2.1*ellipseWidth,y+29/26*ellipseHeight,1/2*ellipseWidth,ellipseHeight);
+};
+    var drawAppStarTrekBadge= function(x,y) {
     var ellipseWidth=25;
     var ellipseHeight=0.65*ellipseWidth;
 
@@ -93,7 +117,8 @@ var starTrek= new App({
         drawPhone(100,20);
         fill(64, 59, 59);
         noStroke();
-        rect(100+8,20+8,205,335);
+        rect(100+8,20+8,205,310);
+        drawEnterprise(200,170);
     }    
 });
 var home= new HomeButton({
@@ -104,6 +129,9 @@ var home= new HomeButton({
     textColor:color(104, 107, 104),
     onClick:function(){
         drawPhone(100,20);
+        starTrek.draw();
+        drawAppStarTrekBadge(starTrek.x+20,starTrek.y+20);
+        home.draw();
     } 
 });
 starTrek.draw();
@@ -112,8 +140,8 @@ home.draw();
 mouseClicked=function(){
     if(starTrek.isInside()){
         starTrek.handleMouseClick();
+        home.draw();
     }else if(home.isInside()){
         home.handleMouseClick();    
     }
 };
-
